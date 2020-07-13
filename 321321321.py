@@ -26,6 +26,7 @@ while(flag):
         pass
     if flag == '0':
         break
+urls = set(urls)
 with open('/Users/qeepnet/Desktop/urls/' + fname + '.txt', 'w') as fout:
     for elem in urls:
         fout.write(elem)
