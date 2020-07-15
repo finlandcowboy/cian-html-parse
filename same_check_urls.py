@@ -1,8 +1,12 @@
+
+
+
+
 res = list()
 fname = input('ВВЕДИТЕ НАЗВАНИЕ ФАЙЛА ДЛЯ ВЫВОДА: ')
 new = input('Введите название файла с новыми URL: ')
 new_urls = list()
-with open('/Users/qeepnet/Desktop/urls/' + new +'.txt', 'r') as input_file:
+with open('/Users/qeepnet/Desktop/urls/14.07/' + new +'.txt', 'r') as input_file:
     for line in input_file:
         new_urls.append(line)
 print('OLD NEW URLS', new_urls)
