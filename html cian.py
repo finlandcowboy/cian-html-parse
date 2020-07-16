@@ -1,22 +1,26 @@
 import requests
 from bs4 import BeautifulSoup
 import os, datetime
-input_list = ['test', 'https://spb.cian.ru/newobjects/list/?deal_type=sale&engine_version=2&offer_type=newobject&region=-2&year%5B0%5D=2018&p=13',
-              1, 'https://spb.cian.ru/newobjects/list/?deal_type=sale&engine_version=2&offer_type=newobject&region=-2&year%5B0%5D=2018&p=12',
-              1, 'https://spb.cian.ru/newobjects/list/?deal_type=sale&engine_version=2&offer_type=newobject&region=-2&year%5B0%5D=2018&p=11',
-              1, 'https://spb.cian.ru/newobjects/list/?deal_type=sale&engine_version=2&offer_type=newobject&region=-2&year%5B0%5D=2018&p=10', 0]
+#input_list = ['test', 'https://spb.cian.ru/newobjects/list/?deal_type=sale&engine_version=2&offer_type=newobject&region=-2&year%5B0%5D=2018&p=13',
+#              1, 'https://spb.cian.ru/newobjects/list/?deal_type=sale&engine_version=2&offer_type=newobject&region=-2&year%5B0%5D=2018&p=12',
+#              1, 'https://spb.cian.ru/newobjects/list/?deal_type=sale&engine_version=2&offer_type=newobject&region=-2&year%5B0%5D=2018&p=11',
+#              1, 'https://spb.cian.ru/newobjects/list/?deal_type=sale&engine_version=2&offer_type=newobject&region=-2&year%5B0%5D=2018&p=10', 0]
 all_input = ''
 c = 0
-#fname = input('Введите название файла:')
-fname = str(input_list[c])
+fname = input('Введите название файла:')
+#fname = str(input_list[c])
 c = c + 1
+
+
 all_input = all_input + fname + '\n'
 flag = 1
 urls = list()
 while(flag):
-    #url = input('Введите URL:')
-    url = input_list[c]
-    c = c + 1
+    url = input('Введите URL:')
+
+    #url = input_list[c]
+    #c = c + 1
+
     all_input = all_input + url + '\n'
     r = requests.get(url)
     with open('text.html','w') as output_file:
@@ -32,9 +36,11 @@ while(flag):
             pass
         if str(find_url).startswith('https'):
             urls.append(str(find_url))
-    #flag = input('Надо еще? Да - 1 Нет - 0')
-    flag = str(input_list[c])
+    flag = input('Надо еще? Да - 1 Нет - 0')
+
+    #flag = str(input_list[c])
     c = c + 1
+
     all_input = all_input + flag + '\n'
     if flag == '1':
         pass
@@ -64,15 +70,26 @@ try:
     os.mkdir(path)
 except:
     print('ALRDY RDY')
-path = os.path.join(path, fname)
+path2 = os.path.join(path, fname)
 try:
-    os.mkdir(path)
+    os.mkdir(path2)
 except:
     print('ALRDY RDY2')
-for i in range(count):
-    print('List URLS:', list_urls[i])
-    if count > 1:
-        with open(path + '/' + fname + str(i) + '.txt', 'w') as fout:
+if count == 0:
+    with open(path2 + '/' + fname + '.txt', 'w') as fout:
+        for elem in urls:
+            elem = elem[8:-1]
+            if 'stati' not in elem:
+                # ZHILOY /zhiloy
+                # fout.write(elem[elem.index('/'):])
+                # fout.write('\n')
+                # WWW
+                elem = elem[4:]
+                fout.write(elem)
+                fout.write('\n')
+else:
+    for i in range(count):
+        with open(path2 + '/' + fname + str(i) + '.txt', 'w') as fout:
             for elem in list_urls[i]:
                 elem = elem[8:-1]
                 if 'stati' not in elem:
@@ -84,7 +101,7 @@ for i in range(count):
                         elem = elem[4:]
                 fout.write(elem)
                 fout.write('\n')
-
-with open(path + '/' + fname +  '_LOG.txt','w') as outfile:
+with open(path2 + '/' + fname +  '_LOG.txt','w') as outfile:
     outfile.write('LOG\n')
     outfile.write(all_input)
+
