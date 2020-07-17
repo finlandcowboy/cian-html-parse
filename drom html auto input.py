@@ -1,44 +1,47 @@
 import requests
 import os, datetime
 from bs4 import BeautifulSoup
+from googletrans import Translator
+Translator = Translator()
 all_input = ''
-input_list = str(input('string log: ')).split(' ')
+input_list = list()
+car = Translator.translate(input('Введите название марки машины: '), src='ru', dest='en')
+input_list.append(car.text)
+city = Translator.translate(input('Введите город: '), src='ru', dest='en')
+path = 'https://' + str(city.text.lower()) + '.drom.ru/' + str(input_list[0]) + '/new'
+print(path)
+input_list.append(path)
+path = path + '/all'
+input_list.append(path)
+for i in range(8):
+    a = path + '/page' + str(i+2)
+    input_list.append(a)
 c = 0
-#fname = input("Введите название файла:")
 fname = str(input_list[c])
-c = c + 1
 
 all_input = all_input + fname + ' '
-flag = 1
 urls = list()
-while flag:
-    #url = input("Введите URL:")
+for c in range(len(input_list) - 1):
+    print(input_list)
+    print('FFFFFF: ', input_list[c+1])
     url = input_list[c]
-    c = c + 1
+    if requests.get(url).status_code == 200:
 
-    all_input = all_input + url + ' '
-    r = requests.get(url)
-    with open('drom.html', 'w') as output_file:
-        output_file.write(r.text)
+        c = c + 1
 
-    soup = BeautifulSoup(r.text, 'lxml')
-    for find_url in soup.find_all(class_ = 'css-15mleww erw2ohd2'):
-        try:
-            find_url = find_url.get('href')
-        except:
-            pass
-        urls.append(str(find_url))
-    print('Len after append:', len(urls))
-    #flag = input('Надо еще? Да - 1 Нет - 0')
-    flag = str(input_list[c])
-    c = c + 1
+        all_input = all_input + url + ' '
+        r = requests.get(url)
+        with open('drom.html', 'w') as output_file:
+            output_file.write(r.text)
 
-
-    all_input = all_input + flag + ' '
-    if flag == '1':
-        pass
-    if flag == '0':
-        break
+        soup = BeautifulSoup(r.text, 'lxml')
+        for find_url in soup.find_all(class_ = 'css-15mleww erw2ohd2'):
+            try:
+                find_url = find_url.get('href')
+            except:
+                pass
+            urls.append(str(find_url))
+        print('Len after append:', len(urls))
 
 urls = list(set(urls))
 print('Amount:', len(urls))

@@ -3,10 +3,10 @@ from googletrans import Translator
 trans = Translator()
 car = "мазда"
 sat = trans.translate(car, src='ru')
-print(sat)
+print(sat.text)
 
 model = input('Модель:')
 if model != '':
-    pyperclip.copy('/' + str(sat) + '/' + str(model) + '/new')
+    pyperclip.copy('/' + str(sat.text) + '/' + str(model) + '/new')
 else:
-    pyperclip.copy('/' + str(sat) + '/new')
+    pyperclip.copy('/' + str(sat.text) + '/new')
