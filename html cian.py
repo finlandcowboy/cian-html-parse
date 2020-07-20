@@ -86,8 +86,8 @@ if count == 0:
                 # WWW
                 if elem.startswith('www'):
                     elem = elem[4:]
-                    fout.write(elem)
-                    fout.write('\n')
+                fout.write(elem)
+                fout.write('\n')
 else:
     for i in range(count):
         with open(path2 + '/' + fname + str(i) + '.txt', 'w') as fout:
