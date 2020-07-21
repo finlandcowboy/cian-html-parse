@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import os, datetime
+import pyperclip
 #input_list = ['test', 'https://spb.cian.ru/newobjects/list/?deal_type=sale&engine_version=2&offer_type=newobject&region=-2&year%5B0%5D=2018&p=13',
 #              1, 'https://spb.cian.ru/newobjects/list/?deal_type=sale&engine_version=2&offer_type=newobject&region=-2&year%5B0%5D=2018&p=12',
 #              1, 'https://spb.cian.ru/newobjects/list/?deal_type=sale&engine_version=2&offer_type=newobject&region=-2&year%5B0%5D=2018&p=11',
@@ -75,6 +76,8 @@ try:
     os.mkdir(path2)
 except:
     print('ALRDY RDY2')
+
+temp = ''
 if count == 0:
     with open(path2 + '/' + fname + '.txt', 'w') as fout:
         for elem in urls:
@@ -86,8 +89,11 @@ if count == 0:
                 # WWW
                 if elem.startswith('www'):
                     elem = elem[4:]
+                temp = temp + elem + '\n'
                 fout.write(elem)
                 fout.write('\n')
+    pyperclip.copy(temp)
+
 else:
     for i in range(count):
         with open(path2 + '/' + fname + str(i) + '.txt', 'w') as fout:
@@ -102,6 +108,9 @@ else:
                         elem = elem[4:]
                 fout.write(elem)
                 fout.write('\n')
+                temp = temp + elem + '\n'
+
+    pyperclip.copy(temp)
 with open(path2 + '/' + fname +  '_LOG.txt','w') as outfile:
     outfile.write('LOG\n')
     outfile.write(all_input)

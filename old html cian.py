@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import pyperclip
 all_input = ''
 fname = input('Введите название файла:')
 all_input = all_input + fname + '\n'
